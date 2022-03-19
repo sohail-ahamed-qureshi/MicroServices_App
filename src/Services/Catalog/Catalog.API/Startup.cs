@@ -30,6 +30,7 @@ namespace Catalog.API
 
             services.AddControllers();
 
+            services.AddScoped<ICatalogContext, CatalogContext>();
             services.AddScoped<IProductInteractor, ProductInteractor>();
             services.AddScoped<IProductsRepository, ProductRepository>();
 
