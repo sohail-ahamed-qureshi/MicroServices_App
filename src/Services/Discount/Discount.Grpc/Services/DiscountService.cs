@@ -30,9 +30,10 @@ namespace Discount.Grpc.Services
             if (coupon != null)
             {
                 var couponModel = _mapper.Map<CouponModel>(coupon);
-
+                context.Status = new Status(StatusCode.OK, "coupon retireved successfully");
                 return couponModel;
             }
+            context.Status = new Status(StatusCode.NotFound, "Coupon retireve failed");
             return new CouponModel();
         }
 
@@ -51,7 +52,7 @@ namespace Discount.Grpc.Services
         public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
         {
             var response = await _discountInteractor.DeleteDiscount(request.ProductName);
-            return new DeleteDiscountResponse { Success = response }; 
+            return new DeleteDiscountResponse { Success = response };
         }
     }
 }

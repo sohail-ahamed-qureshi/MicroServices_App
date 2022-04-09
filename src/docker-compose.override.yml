@@ -68,3 +68,10 @@ services:
     ports:
       - "8003:80"
 
+
+  discount.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+

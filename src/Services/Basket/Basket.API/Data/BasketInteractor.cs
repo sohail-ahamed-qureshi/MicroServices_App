@@ -34,7 +34,7 @@ namespace Basket.API.Data
             foreach (var item in basket.Items)
             {
                 var coupon = await _grpcServices.GetDiscount(item.ProductName);
-                item.price = -coupon.Amount; //remove discounted amount from actual price
+                item.price -=coupon.Amount; //remove discounted amount from actual price
             }
             return await _basketRepository.UpdateBasket(basket);
         }
