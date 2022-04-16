@@ -26,15 +26,24 @@ namespace Discount.Grpc.Services
 
         public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
-            var coupon = await _discountInteractor.GetDiscount(request.ProductName);
-            if (coupon != null)
+            try
             {
-                var couponModel = _mapper.Map<CouponModel>(coupon);
-                context.Status = new Status(StatusCode.OK, "coupon retireved successfully");
-                return couponModel;
+                var coupon = await _discountInteractor.GetDiscount(request.ProductName);
+                if (coupon != null)
+                {
+                    var couponModel = _mapper.Map<CouponModel>(coupon);
+                    context.Status = new Status(StatusCode.OK, "coupon retireved successfully");
+                    return couponModel;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Something went wrong : {ex.Message}");
             }
             context.Status = new Status(StatusCode.NotFound, "Coupon retireve failed");
             return new CouponModel();
+
         }
 
         public override async Task<CreateDiscountResponse> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
